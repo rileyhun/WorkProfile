@@ -1,0 +1,10 @@
+data<-read.csv(file.choose())
+data<-subset(data, select=c("date_of_service", "item_description", "shipping_description", "manifested_cntnrs", "mnfst_line_qty", "mnfst_line_uom", "shipping_uom", "state_provincial_wst_codes", "mnfst_no"))
+data<-data[which(data$shipping_description!=""),]
+data$order<-1:nrow(data)
+library('date')
+library('lubridate')
+data$year<-year(as.date(as.character(data$date_of_service)))
+data$month<-month(as.date(as.character(data$date_of_service)), label=TRUE, abbr=FALSE)
+data<-subset(data, select=c("order", "date_of_service", "year", "month", "item_description", "shipping_description", "manifested_cntnrs", "mnfst_line_qty", "mnfst_line_uom", "shipping_uom", "state_provincial_wst_codes", "mnfst_no"))
+write.csv(data, "CleanHarbors.csv")
